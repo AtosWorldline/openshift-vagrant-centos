@@ -1,8 +1,13 @@
 # README
 
-Those steps are not yet automatic, and should be done manually : 
+First install vagrant-vbguest plugin
 
-Enable SELinux in permissive mode : 
+    vagrant plugin install vagrant-vbguest
 
-    /etc/selinux/config
-    SELINUX=permissive
+To install OpenShift in a Vagrant VM you should call
+
+    vagrant up
+    vagrant halt
+    vagrant up
+  
+A restart is mandatory for SELinux

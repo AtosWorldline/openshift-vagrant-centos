@@ -59,6 +59,7 @@ Vagrant::Config.run do |config|
 	sudo sed -i 's/nameserver .*$/nameserver 127.0.0.1/g' /etc/resolv.conf                             | tee -a /var/log/origin-setup.log; \
 	sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config        | tee -a /var/log/origin-setup.log; \
     sudo /etc/init.d/sshd restart                                                                      | tee -a /var/log/origin-setup.log; \
-    sudo /usr/sbin/oo-register-dns -h broker -n 127.0.0.1                                              | tee -a /var/log/origin-setup.log;
+    sudo /usr/sbin/oo-register-dns -h broker -n 127.0.0.1                                              | tee -a /var/log/origin-setup.log; \
+	sudo gem install rhc                                                                               | tee -a /var/log/origin-setup.log;
   }
 end

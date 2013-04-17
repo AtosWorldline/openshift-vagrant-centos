@@ -15,7 +15,14 @@ Vagrant::Config.run do |config|
   config.vm.share_folder "manifests", "/home/vagrant/manifests", "manifests"
   config.vm.provision :shell, :inline => %{ \
     touch /var/log/origin-setup.log; \
-    sudo yum update -y                                          | tee -a /var/log/origin-setup.log; \
+	sudo rpm -ivh http://ftp-stud.hs-esslingen.de/pub/epel/6/i386/epel-release-6-8.noarch.rpm  | tee -a /var/log/origin-setup.log;   \
+    sudo yum update -y                                               | tee -a /var/log/origin-setup.log;  \
+    sudo rpm -ivh http://yum.puppetlabs.com/el/6/products/i386/puppetlabs-release-6-6.noarch.rpm  | tee -a /var/log/origin-setup.log;  \
+    sudo yum install -y puppet facter                                | tee -a /var/log/origin-setup.log;  \
+    sudo rpm -e $(rpm -qa | grep -i puppetlabs-release)              | tee -a /var/log/origin-setup.log;  \
+    sudo puppet module install puppetlabs/stdlib                     | tee -a /var/log/origin-setup.log;  \
+    sudo puppet module install puppetlabs/ntp                        | tee -a /var/log/origin-setup.log; \
+    sudo yum update -y                                               | tee -a /var/log/origin-setup.log; \
     sudo puppet module uninstall openshift/openshift_origin          | tee -a /var/log/origin-setup.log; \
     sudo puppet module install openshift/openshift_origin            | tee -a /var/log/origin-setup.log; \
     sudo puppet apply --verbose /home/vagrant/manifests/init.pp      | tee -a /var/log/origin-setup.log; \

@@ -1,3 +1,10 @@
+# OpenShift Vagrant Centos
+
+The official puppet manifest works well on CentOS. Unfortunately, the vagrant part (test directory) only worked on Fedora.
+Here you will find a Vagrantfile that works on CentOS with or without proxy.
+
+Now the old README...
+
 # puppet-openshift_origin
 
 # About

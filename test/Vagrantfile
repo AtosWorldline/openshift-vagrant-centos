@@ -11,7 +11,7 @@ Vagrant::Config.run do |config|
   config.vm.forward_port 8080, 8080
   config.vm.forward_port 8118, 8118
 
-  config.vm.host_name = 'broker.example.com'
+  config.vm.host_name = 'broker.mymachine.me'
 
   ### Setup vagrant-vbguest
   Vagrant::Config.run do |config|

@@ -20,9 +20,11 @@ Note : do not call this command inside the `test` dir, it will fails.
 	git clone https://github.com/Filirom1/puppet-openshift_origin.git
 	cd puppet-openshift_origin
 	cd test
-    vagrant up
-	vagrant vbguest   # the kernel was updated, virtualbox guest-additions need to be updated too
+	vagrant up
 	vagrant halt      # SELinux need a reboot
+	vagrant up
+	vagrant vbguest   # the kernel was updated, virtualbox guest-additions need to be updated too
+	vagrant halt      # reboot the VM for shared folders to work
 	vagrant up
 
 

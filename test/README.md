@@ -1,20 +1,32 @@
 # README
 
-## Install
+## Install vagrant-vbguest
 
-First install vagrant-vbguest plugin
+First install vagrant-vbguest plugin. It's needed after kernel update, to keep virtualbox guest addition working.
+
+For vagrant 1.1
 
     vagrant plugin install vagrant-vbguest
 
-To install OpenShift in a Vagrant VM you should call
+For Vagrant 1.0 and older	
+	
+	vagrant gem install vagrant-vbguest
 
-    vagrant up
-    vagrant halt
-    vagrant up
-  
-A restart is mandatory for SELinux
+Note : do not call this command inside the `test` dir, it will fails. 
 
-## Configure
+
+## Launch vagrant
+
+	git clone https://github.com/Filirom1/puppet-openshift_origin.git
+	cd puppet-openshift_origin
+	cd test
+    vagrant up
+	vagrant vbguest   # the kernel was updated, virtualbox guest-additions need to be updated too
+	vagrant halt      # SELinux need a reboot
+	vagrant up
+
+
+## Setup OpenShift
 
     vagrant ssh
 	rhc setup
@@ -30,5 +42,3 @@ A restart is mandatory for SELinux
 
 Open your brower at <https://localhost/console>
 Create an application
-
-Modify your /etc/hosts or your resolv.conf to point to the OpenShift DNS

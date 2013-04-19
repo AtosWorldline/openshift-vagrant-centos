@@ -13,21 +13,12 @@ Vagrant::Config.run do |config|
 
   config.vm.host_name = 'broker.mymachine.me'
 
-  ### Setup vagrant-vbguest
+  ### vagrant-vbguest
   Vagrant::Config.run do |config|
-    # we will try to autodetect this path. 
-    # However, if we cannot or you have a special one you may pass it like:
-    # config.vbguest.iso_path = "#{ENV['HOME']}/Downloads/VBoxGuestAdditions.iso"
-    # or
-    # config.vbguest.iso_path = "http://company.server/VirtualBox/%{version}/VBoxGuestAdditions.iso"
-    # set auto_update to false, if do NOT want to check the correct additions 
-    # version when booting this machine
-    config.vbguest.auto_update = true
-    # do NOT download the iso file from a webserver
-    config.vbguest.no_remote = true
+     config.vbguest.auto_update = false
   end
   
-  ### Setup the proxy
+  ### proxy
   config.vm.provision :chef_solo do |chef|
     config.vm.share_folder "cookbooks", "/home/vagrant/cookbooks", "cookbooks"
     chef.cookbooks_path = 'cookbooks'
@@ -42,7 +33,7 @@ Vagrant::Config.run do |config|
   end
   # TODO it would be great to have the proxy recipes in puppet.
   
-  ### Setup OpenShift
+  ### OpenShift
   config.vm.share_folder "manifests", "/home/vagrant/manifests", "manifests"
   config.vm.provision :shell, :inline => %{ \
     touch /var/log/origin-setup.log; \
@@ -62,7 +53,7 @@ Vagrant::Config.run do |config|
     sudo -E /etc/init.d/activemq restart                                                               2>&1 | tee -a /var/log/origin-setup.log; \
     sudo -E /etc/init.d/cgconfig restart                                                               2>&1 | tee -a /var/log/origin-setup.log; \
     sudo -E /etc/init.d/cgred restart                                                                  2>&1 | tee -a /var/log/origin-setup.log; \
-    sleep 5; \
+    sleep 5;                                                                                                                                    \
     sudo -E /etc/init.d/openshift-cgroups restart                                                      2>&1 | tee -a /var/log/origin-setup.log; \
     sudo -E /etc/init.d/httpd restart                                                                  2>&1 | tee -a /var/log/origin-setup.log; \
     sudo -E /etc/init.d/openshift-broker restart                                                       2>&1 | tee -a /var/log/origin-setup.log; \
@@ -73,7 +64,7 @@ Vagrant::Config.run do |config|
     sudo -E sed -i 's/nameserver .*$/nameserver 127.0.0.1/g' /etc/resolv.conf                          2>&1 | tee -a /var/log/origin-setup.log; \
     sudo -E sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config     2>&1 | tee -a /var/log/origin-setup.log; \
     sudo -E /etc/init.d/sshd restart                                                                   2>&1 | tee -a /var/log/origin-setup.log; \
-    sudo -E /usr/sbin/oo-register-dns -h broker -d mymachine.me -n 127.0.0.1                                           2>&1 | tee -a /var/log/origin-setup.log; \
+    sudo -E /usr/sbin/oo-register-dns -h broker -d mymachine.me -n 127.0.0.1                           2>&1 | tee -a /var/log/origin-setup.log; \
     sudo -E gem install rhc                                                                            2>&1 | tee -a /var/log/origin-setup.log;
   }
 end

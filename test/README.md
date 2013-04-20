@@ -44,3 +44,12 @@ Note : do not call this command inside the `test` dir, it will fails.
 
 Open your brower at <https://localhost/console>
 Create an application
+
+## Tested
+
+Tested on Vagrant 1.1.5 and 1.0.7
+
+## Thanks
+
+Thanks to matjack1 for the [kickstart](https://github.com/matjack1/puppet-openshift_origin/blob/master/test/kickstart.sh)
+And to Redhat for the puppet repo

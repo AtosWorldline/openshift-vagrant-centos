@@ -39,6 +39,11 @@ Vagrant::Config.run do |config|
   config.vm.share_folder "manifests", "/home/vagrant/manifests", "manifests"
   config.vm.provision :shell, :inline => %{ \
     touch /var/log/origin-setup.log; \
+    sudo -E grep proxy /etc/yum.conf || echo "proxy=#{ENV['HTTP_PROXY']}" >> /etc/yum.conf             2>&1 | tee -a /var/log/origin-setup.log; \
+    export http_proxy="#{ENV['HTTP_PROXY']}"                                                           2>&1 | tee -a /var/log/origin-setup.log; \
+    export https_proxy="#{ENV['HTTPS_PROXY']}"                                                         2>&1 | tee -a /var/log/origin-setup.log; \
+    export ftp_proxy="#{ENV['HTTP_PROXY']}"                                                            2>&1 | tee -a /var/log/origin-setup.log; \
+    export no_proxy="mymachine.me,#{ENV['NO_PROXY']}"                                                  2>&1 | tee -a /var/log/origin-setup.log; \
     sudo -E rpm -ivh http://ftp-stud.hs-esslingen.de/pub/epel/6/i386/epel-release-6-8.noarch.rpm       2>&1 | tee -a /var/log/origin-setup.log; \
     sudo -E yum update -y                                                                              2>&1 | tee -a /var/log/origin-setup.log; \
     sudo -E rpm -ivh http://yum.puppetlabs.com/el/6/products/i386/puppetlabs-release-6-6.noarch.rpm    2>&1 | tee -a /var/log/origin-setup.log; \

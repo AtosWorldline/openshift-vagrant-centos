@@ -12,23 +12,27 @@ Vagrant::Config.run do |config|
   config.vm.share_folder "manifests", "/home/vagrant/manifests", "manifests"
   config.vm.provision :shell, :inline => %{ \
     touch /var/log/origin-setup.log; \
-    sudo yum update -y                                          | tee -a /var/log/origin-setup.log; \
-    sudo /bin/puppet module uninstall openshift/openshift_origin          | tee -a /var/log/origin-setup.log; \
-    sudo /bin/puppet module install openshift/openshift_origin            | tee -a /var/log/origin-setup.log; \
-    sudo /bin/puppet apply --verbose /home/vagrant/manifests/init.pp      | tee -a /var/log/origin-setup.log; \
-    sudo /bin/puppet apply --verbose /home/vagrant/manifests/configure.pp | tee -a /var/log/origin-setup.log; \
-  
-    sudo /bin/systemctl restart  network.service                | tee -a /var/log/origin-setup.log; \
-    sudo /bin/systemctl restart  activemq.service               | tee -a /var/log/origin-setup.log; \
-    sudo /bin/systemctl restart  cgconfig.service               | tee -a /var/log/origin-setup.log; \
-    sudo /bin/systemctl restart  cgred.service                  | tee -a /var/log/origin-setup.log; \
-    sleep 5; \
-    sudo /bin/systemctl restart  openshift-cgroups.service      | tee -a /var/log/origin-setup.log; \
-    sudo /bin/systemctl restart  httpd.service                  | tee -a /var/log/origin-setup.log; \
-    sudo /bin/systemctl restart  openshift-broker.service       | tee -a /var/log/origin-setup.log; \
-    sudo /bin/systemctl restart  openshift-node-web-proxy.service  | tee -a /var/log/origin-setup.log; \
-    sudo /bin/systemctl restart  named.service                  | tee -a /var/log/origin-setup.log; \
-    sudo /bin/systemctl restart  mcollective.service            | tee -a /var/log/origin-setup.log; \
-    sudo /usr/sbin/oo-register-dns -h broker -d mymachine.me -n 127.0.0.1 | tee -a /var/log/origin-setup.log;
+    sudo -E grep proxy /etc/yum.conf || echo "proxy=#{ENV['HTTP_PROXY']}" >> /etc/yum.conf                           \
+    export http_proxy="#{ENV['HTTP_PROXY']}"                                                                         \
+    export https_proxy="#{ENV['HTTPS_PROXY']}"                                                                       \
+    export ftp_proxy="#{ENV['HTTP_PROXY']}"                                                                          \
+    export no_proxy="mymachine.me,#{ENV['NO_PROXY']}"                                                                \
+    sudo -E yum update -y                                                        | tee -a /var/log/origin-setup.log; \
+    sudo -E /bin/puppet module uninstall openshift/openshift_origin              | tee -a /var/log/origin-setup.log; \
+    sudo -E /bin/puppet module install openshift/openshift_origin                | tee -a /var/log/origin-setup.log; \
+    sudo -E /bin/puppet apply --verbose /home/vagrant/manifests/init.pp          | tee -a /var/log/origin-setup.log; \
+    sudo -E /bin/puppet apply --verbose /home/vagrant/manifests/configure.pp     | tee -a /var/log/origin-setup.log; \
+    sudo -E /bin/systemctl restart  network.service                              | tee -a /var/log/origin-setup.log; \
+    sudo -E /bin/systemctl restart  activemq.service                             | tee -a /var/log/origin-setup.log; \
+    sudo -E /bin/systemctl restart  cgconfig.service                             | tee -a /var/log/origin-setup.log; \
+    sudo -E /bin/systemctl restart  cgred.service                                | tee -a /var/log/origin-setup.log; \
+    sleep 5;                                                                                                         \
+    sudo -E /bin/systemctl restart  openshift-cgroups.service                    | tee -a /var/log/origin-setup.log; \
+    sudo -E /bin/systemctl restart  httpd.service                                | tee -a /var/log/origin-setup.log; \
+    sudo -E /bin/systemctl restart  openshift-broker.service                     | tee -a /var/log/origin-setup.log; \
+    sudo -E /bin/systemctl restart  openshift-node-web-proxy.service             | tee -a /var/log/origin-setup.log; \
+    sudo -E /bin/systemctl restart  named.service                                | tee -a /var/log/origin-setup.log; \
+    sudo -E /bin/systemctl restart  mcollective.service                          | tee -a /var/log/origin-setup.log; \
+    sudo -E /usr/sbin/oo-register-dns -h broker -d mymachine.me -n 127.0.0.1     | tee -a /var/log/origin-setup.log;
   }
 end

@@ -28,7 +28,7 @@ Vagrant::Config.run do |config|
   config.vm.forward_port 80, 80
   config.vm.forward_port 443, 443
   config.vm.forward_port 53, 53
-  config.vm.host_name = 'broker.example.com'
+  config.vm.host_name = 'broker.mymachine.me'
 
   ### vagrant-vbguest
   Vagrant::Config.run do |config|
@@ -66,7 +66,7 @@ Vagrant::Config.run do |config|
     sudo -E sed -i 's/nameserver .*$/nameserver 127.0.0.1/g' /etc/resolv.conf                          2>&1 | tee -a /var/log/origin-setup.log; \
     sudo -E sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config     2>&1 | tee -a /var/log/origin-setup.log; \
     sudo -E /etc/init.d/sshd restart                                                                   2>&1 | tee -a /var/log/origin-setup.log; \
-    sudo -E /usr/sbin/oo-register-dns -h broker -n 127.0.0.1                                           2>&1 | tee -a /var/log/origin-setup.log; \
+    sudo -E /usr/sbin/oo-register-dns -h broker -d mymachine.me -n 127.0.0.1                           2>&1 | tee -a /var/log/origin-setup.log; \
     sudo -E gem install rhc                                                                            2>&1 | tee -a /var/log/origin-setup.log;
   }
 end

@@ -1,8 +1,8 @@
-$keyfile='/var/named/Kexample.com.*.key'
+$keyfile='/var/named/Kmymachine.me.*.key'
 $key=inline_template('<%=File.read(Dir.glob(keyfile)[0]).strip.split(\' \')[7]%>')
 class { 'openshift_origin' :
   node_fqdn                  => "${hostname}.${domain}",
-  cloud_domain               => 'example.com',
+  cloud_domain               => 'mymachine.me',
   named_tsig_priv_key        => $::key,
   dns_servers                => ['8.8.8.8'],
   os_unmanaged_users         => ['vagrant'],

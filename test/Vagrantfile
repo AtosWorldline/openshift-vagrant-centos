@@ -7,7 +7,7 @@ Vagrant::Config.run do |config|
   config.vm.forward_port 80, 80
   config.vm.forward_port 443, 443
   config.vm.forward_port 53, 53
-  config.vm.host_name = 'broker.example.com'
+  config.vm.host_name = 'broker.mymachine.me'
   
   config.vm.share_folder "manifests", "/home/vagrant/manifests", "manifests"
   config.vm.provision :shell, :inline => %{ \
@@ -29,6 +29,6 @@ Vagrant::Config.run do |config|
     sudo /bin/systemctl restart  openshift-node-web-proxy.service  | tee -a /var/log/origin-setup.log; \
     sudo /bin/systemctl restart  named.service                  | tee -a /var/log/origin-setup.log; \
     sudo /bin/systemctl restart  mcollective.service            | tee -a /var/log/origin-setup.log; \
-    sudo /usr/sbin/oo-register-dns -h broker -n 127.0.0.1       | tee -a /var/log/origin-setup.log;
+    sudo /usr/sbin/oo-register-dns -h broker -d mymachine.me -n 127.0.0.1 | tee -a /var/log/origin-setup.log;
   }
 end

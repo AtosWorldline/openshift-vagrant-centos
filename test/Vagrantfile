@@ -65,6 +65,7 @@ Vagrant::Config.run do |config|
     sudo -E sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config     2>&1 | tee -a /var/log/origin-setup.log; \
     sudo -E /etc/init.d/sshd restart                                                                   2>&1 | tee -a /var/log/origin-setup.log; \
     sudo -E /usr/sbin/oo-register-dns -h broker -d mymachine.me -n 127.0.0.1                           2>&1 | tee -a /var/log/origin-setup.log; \
+    sudo -E yum install -y v8                                                                          2>&1 | tee -a /var/log/origin-setup.log; \
     sudo -E gem install rhc                                                                            2>&1 | tee -a /var/log/origin-setup.log;
   }
 end

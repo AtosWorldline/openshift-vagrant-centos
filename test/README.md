@@ -17,7 +17,7 @@ Note : do not call this command inside the `test` dir, it will fails.
 
 ## Launch vagrant
 
-	git clone https://github.com/Filirom1/puppet-openshift_origin.git
+	git clone https://github.com/AtosWorldline/puppet-openshift_origin.git
 	cd puppet-openshift_origin
 	cd test
 	vagrant up

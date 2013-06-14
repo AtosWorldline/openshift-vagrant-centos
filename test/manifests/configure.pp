@@ -1,4 +1,4 @@
-$keyfile='/var/named/Kexample.com.*.key'
+$keyfile='/var/named/Kmymachine.me.*.key'
 $key=inline_template('<%=File.read(Dir.glob(keyfile)[0]).strip.split(\' \')[7]%>')
 class { 'openshift_origin' :
   node_fqdn                  => "${hostname}.${domain}",
@@ -15,5 +15,6 @@ class { 'openshift_origin' :
   configure_named            => true,
   configure_broker           => true,
   configure_node             => true,
-  development_mode           => true,
+  development_mode           => false,
+  use_v2_carts               => true,
 }

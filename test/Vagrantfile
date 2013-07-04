@@ -37,8 +37,11 @@ Vagrant::Config.run do |config|
     touch /var/log/origin-setup.log; \
     yum install -y yum-priorities                                                              2>&1 | tee -a /var/log/origin-setup.log; \
     cp /vagrant/CentOS-Base.repo -f /etc/yum.repos.d/                                          2>&1 | tee -a /var/log/origin-setup.log; \
-	cp /vagrant/openshift-origin.repo -f /etc/yum.repos.d/                                     2>&1 | tee -a /var/log/origin-setup.log; \
-	cp /vagrant/openshift-origin-deps.repo -f /etc/yum.repos.d/                                2>&1 | tee -a /var/log/origin-setup.log; \
+    cp /vagrant/openshift-origin.repo -f /etc/yum.repos.d/                                     2>&1 | tee -a /var/log/origin-setup.log; \
+    cp /vagrant/openshift-origin-deps.repo -f /etc/yum.repos.d/                                2>&1 | tee -a /var/log/origin-setup.log; \
+    cp /vagrant/rhel-6-scl-postgresql92.repo -f /etc/yum.repos.d/                              2>&1 | tee -a /var/log/origin-setup.log; \
+    cp /vagrant/scl_python27.repo -f /etc/yum.repos.d/                                         2>&1 | tee -a /var/log/origin-setup.log; \
+    cp /vagrant/scl_python33.repo -f /etc/yum.repos.d/                                         2>&1 | tee -a /var/log/origin-setup.log; \
     rpm -ivh http://ftp-stud.hs-esslingen.de/pub/epel/6/i386/epel-release-6-8.noarch.rpm       2>&1 | tee -a /var/log/origin-setup.log; \
     rpm -ivh http://yum.puppetlabs.com/el/6/products/i386/puppetlabs-release-6-6.noarch.rpm    2>&1 | tee -a /var/log/origin-setup.log; \
     yum install -y lsof                                                                        2>&1 | tee -a /var/log/origin-setup.log; \

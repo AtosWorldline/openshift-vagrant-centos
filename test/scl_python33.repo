@@ -1,0 +1,6 @@
+[scl_python33]
+name=Python 3.3 Dynamic Software Collection
+baseurl=http://people.redhat.com/bkabrda/python33-rhel-6/
+failovermethod=priority
+enabled=1
+gpgcheck=0

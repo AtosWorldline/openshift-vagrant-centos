@@ -1,0 +1,4 @@
+[rhel-6-scl-postgresql92]
+name=rhel-6-scl-postgresql92
+baseurl=http://people.redhat.com/~hhorak/software-collections/postgresql92-rhel-6-candidate/
+gpgcheck=0
